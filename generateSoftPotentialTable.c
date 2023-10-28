@@ -6,6 +6,8 @@
 #include <time.h>
 
 #define R_BIN_DIST 0.01
+#define N_POT_LINES 251
+#define DR_FOR_DERIVATIVE 0.001
 
 typedef struct softPotential
 {
@@ -141,13 +143,13 @@ POTENTIAL *computeSoftPotentialValues (POTENTIAL *potValues, int arrayLength, in
 
 	for (int i = 0; i < arrayLength; ++i)
 	{
-		potValues[i].dh = computeDerivativeRepulsiveEnergy (n, lambda, alphaLJ, v, w, sigma, epsilon, potValues[i].r, 0.001);
+		potValues[i].dh = computeDerivativeRepulsiveEnergy (n, lambda, alphaLJ, v, w, sigma, epsilon, potValues[i].r, DR_FOR_DERIVATIVE);
 	}
 
 	for (int i = 0; i < arrayLength; ++i)
 	{
 		potValues[i].g = computeAttractiveEnergy (n, lambda, alphaLJ, v, w, sigma, epsilon, potValues[i].r);
-		potValues[i].dg = computeDerivativeAttractiveEnergy (n, lambda, alphaLJ, v, w, sigma, epsilon, potValues[i].r, 0.001);
+		potValues[i].dg = computeDerivativeAttractiveEnergy (n, lambda, alphaLJ, v, w, sigma, epsilon, potValues[i].r, DR_FOR_DERIVATIVE);
 	}
 
 	return potValues;
@@ -179,10 +181,10 @@ int main(int argc, char const *argv[])
 	float epsilon = calculateEpsilon (v, w, sigma);
 
 	POTENTIAL *potValues;
-	potValues = (POTENTIAL *) malloc (251 * sizeof (POTENTIAL));
+	potValues = (POTENTIAL *) malloc (N_POT_LINES * sizeof (POTENTIAL));
 
-	potValues = computeSoftPotentialValues (potValues, 251, n, lambda, alphaLJ, v, w, sigma, epsilon);
-	printPotValues (output_file, potValues, 251);
+	potValues = computeSoftPotentialValues (potValues, N_POT_LINES, n, lambda, alphaLJ, v, w, sigma, epsilon);
+	printPotValues (output_file, potValues, N_POT_LINES);
 
 	fclose (output_file);
 	return 0;
