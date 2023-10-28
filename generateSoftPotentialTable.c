@@ -53,6 +53,17 @@ float computeRepulsiveEnergy (int n, float lambda, float alphaLJ, float v, float
 	return repulsivePotEnergy;
 }
 
+float computeAttractiveEnergy (int n, float lambda, float alphaLJ, float v, float w, float sigma, float epsilon, float r)
+{
+	float attractivePotEnergy;
+
+	// attractivePotEnergy = v / pow (r, 6);
+	attractivePotEnergy = pow (lambda, n) * 4 * epsilon;
+	attractivePotEnergy /= alphaLJ * pow ((1 - lambda), 2) + pow ((r / sigma), 6);
+
+	return attractivePotEnergy;
+}
+
 float computeDerivativeRepulsiveEnergy (int n, float lambda, float alphaLJ, float v, float w, float sigma, float epsilon, float r, float dr)
 {
 	float derivative, y1, y2, y3, x1, x2, x3, dx1, dx2, dy1, dy2;
@@ -75,15 +86,6 @@ float computeDerivativeRepulsiveEnergy (int n, float lambda, float alphaLJ, floa
 	derivative /= 2;
 
 	return derivative;
-}
-
-float computeAttractiveEnergy (int n, float lambda, float alphaLJ, float v, float w, float sigma, float epsilon, float r)
-{
-	float attractivePotEnergy;
-
-	attractivePotEnergy = v / pow (r, 6);
-
-	return attractivePotEnergy;
 }
 
 float computeDerivativeAttractiveEnergy (int n, float lambda, float alphaLJ, float v, float w, float sigma, float epsilon, float r, float dr)
@@ -149,6 +151,7 @@ POTENTIAL *computeSoftPotentialValues (POTENTIAL *potValues, int arrayLength, in
 	for (int i = 0; i < arrayLength; ++i)
 	{
 		potValues[i].g = computeAttractiveEnergy (n, lambda, alphaLJ, v, w, sigma, epsilon, potValues[i].r);
+		potValues[i].g /= (4 * epsilon * pow (sigma, 6));
 		potValues[i].dg = computeDerivativeAttractiveEnergy (n, lambda, alphaLJ, v, w, sigma, epsilon, potValues[i].r, DR_FOR_DERIVATIVE);
 	}
 
