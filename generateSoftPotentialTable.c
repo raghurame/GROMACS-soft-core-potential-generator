@@ -164,7 +164,7 @@ void printPotValues (FILE *output_file, POTENTIAL *potValues, int arrayLength)
 
 	for (int i = 0; i < arrayLength; ++i)
 	{
-		fprintf(output_file, "%f\t%d\t%d\t%4E\t%4E\t%4E\t%4E\n", potValues[i].r, 0, 0, potValues[i].g, potValues[i].dg, potValues[i].h, potValues[i].dh);
+		fprintf(output_file, "%f\t%d\t%d\t%4E\t%4E\t%4E\t%4E\n", potValues[i].r, 0, 0, potValues[i].g, -potValues[i].dg, potValues[i].h, -potValues[i].dh);
 	}
 }
 
