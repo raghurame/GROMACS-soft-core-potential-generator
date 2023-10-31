@@ -183,6 +183,8 @@ int main(int argc, char const *argv[])
 	float sigma = calculateSigma (v, w);
 	float epsilon = calculateEpsilon (v, w, sigma);
 
+	printf("sigma: %2E\nepsilon: %2E\n", sigma, epsilon);
+
 	POTENTIAL *potValues;
 	potValues = (POTENTIAL *) malloc (N_POT_LINES * sizeof (POTENTIAL));
 
