@@ -19,7 +19,7 @@ float calculateSigma (float v, float w)
 	float sigma;
 
 	sigma = w / v;
-	sigma = pow (sigma, 1/6);
+	sigma = pow (sigma, 0.166);
 
 	return sigma;
 }
