@@ -158,13 +158,20 @@ POTENTIAL *computeSoftPotentialValues (POTENTIAL *potValues, int arrayLength, in
 	return potValues;
 }
 
-void printPotValues (FILE *output_file, POTENTIAL *potValues, int arrayLength)
+void printPotValues (FILE *output_file, POTENTIAL *potValues, int arrayLength, float sigma, float epsilon)
 {
 	potValues[0].r = 0;
 
 	for (int i = 0; i < arrayLength; ++i)
 	{
-		fprintf(output_file, "%f\t%d\t%d\t%4E\t%4E\t%4E\t%4E\n", potValues[i].r, 0, 0, potValues[i].g, -potValues[i].dg, potValues[i].h, -potValues[i].dh);
+		if (potValues[i].r < sigma)
+		{
+			fprintf(output_file, "%f\t%d\t%d\t%4E\t%4E\t%4E\t%4E\n", potValues[i].r, 0, 0, potValues[i].g, -potValues[i].dg, potValues[i].h, -potValues[i].dh);
+		}
+		else
+		{
+			fprintf(output_file, "%f\t%d\t%d\t%4E\t%4E\t%4E\t%4E\n", potValues[i].r, 0, 0, 0, 0, 0, 0);
+		}
 	}
 }
 
@@ -189,7 +196,7 @@ int main(int argc, char const *argv[])
 	potValues = (POTENTIAL *) malloc (N_POT_LINES * sizeof (POTENTIAL));
 
 	potValues = computeSoftPotentialValues (potValues, N_POT_LINES, n, lambda, alphaLJ, v, w, sigma, epsilon);
-	printPotValues (output_file, potValues, N_POT_LINES);
+	printPotValues (output_file, potValues, N_POT_LINES, sigma, epsilon);
 
 	fclose (output_file);
 	return 0;
