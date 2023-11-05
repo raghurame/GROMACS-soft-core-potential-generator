@@ -170,7 +170,7 @@ void printPotValues (FILE *output_file, POTENTIAL *potValues, int arrayLength, f
 		}
 		else
 		{
-			fprintf(output_file, "%f\t%d\t%d\t%4E\t%4E\t%4E\t%4E\n", potValues[i].r, 0, 0, 0, 0, 0, 0);
+			fprintf(output_file, "%f\t%d\t%d\t%d\t%d\t%d\t%d\n", potValues[i].r, 0, 0, 0, 0, 0, 0, 0);
 		}
 	}
 }
